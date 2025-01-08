@@ -28,7 +28,16 @@ class HomeWidget extends StatelessWidget {
         backgroundColor: Colors.red,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.defaultDialog(
+                title: "Buka Muhammad",
+                middleText: "nanti akan di arahkan ke detailnya",
+                textCancel: "Cancel",
+                onCancel: () => Get.back(),
+                textConfirm: "Okaaayy",
+                onConfirm: () => Get.back(),
+              );
+            },
             icon: Icon(
               Icons.menu_book_outlined,
               size: 25,
@@ -79,7 +88,17 @@ class HomeWidget extends StatelessWidget {
                                       color: Colors.white),
                                 ),
                                 IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Get.defaultDialog(
+                                      title: "Buka Husain",
+                                      middleText:
+                                          "Nanti akan diarahkan ke detailnya",
+                                      textCancel: "Cancel",
+                                      onCancel: () => Get.back(),
+                                      textConfirm: "Okaaayy",
+                                      onConfirm: () => Get.back(),
+                                    );
+                                  },
                                   icon: Icon(
                                     Icons.person,
                                     color: Colors.grey[400],
@@ -138,26 +157,108 @@ class HomeWidget extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            NoticeBoard(title: "Pengumuman", icon: Icon(Icons.menu_book_outlined, size: 40,)),
-                            NoticeBoard(title: "Tugas", icon: Icon(Icons.alarm, size: 40,)),
-                            NoticeBoard(title: "Pengumuman", icon: Icon(Icons.home_repair_service_outlined, size: 40,)),
-                            NoticeBoard(title: "Tugas", icon: Icon(Icons.bookmark_outline_outlined, size: 40,)),
-                            NoticeBoard(title: "Pengumuman", icon: Icon(Icons.perm_camera_mic, size: 40,)),
-                            NoticeBoard(title: "Tugas", icon: Icon(Icons.rowing_outlined, size: 40,)),
-                            NoticeBoard(title: "Pengumuman", icon: Icon(Icons.radar_outlined, size: 40,)),
-                            NoticeBoard(title: "Tugas", icon: Icon(Icons.wordpress_outlined, size: 40,)),
+                            NoticeBoard(
+                                title: "Pengumuman",
+                                icon: Icon(
+                                  Icons.menu_book_outlined,
+                                  size: 40,
+                                )),
+                            NoticeBoard(
+                                title: "Tugas",
+                                icon: Icon(
+                                  Icons.alarm,
+                                  size: 40,
+                                )),
+                            NoticeBoard(
+                                title: "Pengumuman",
+                                icon: Icon(
+                                  Icons.home_repair_service_outlined,
+                                  size: 40,
+                                )),
+                            NoticeBoard(
+                                title: "Tugas",
+                                icon: Icon(
+                                  Icons.bookmark_outline_outlined,
+                                  size: 40,
+                                )),
+                            NoticeBoard(
+                                title: "Pengumuman",
+                                icon: Icon(
+                                  Icons.perm_camera_mic,
+                                  size: 40,
+                                )),
+                            NoticeBoard(
+                                title: "Tugas",
+                                icon: Icon(
+                                  Icons.rowing_outlined,
+                                  size: 40,
+                                )),
+                            NoticeBoard(
+                                title: "Pengumuman",
+                                icon: Icon(
+                                  Icons.radar_outlined,
+                                  size: 40,
+                                )),
+                            NoticeBoard(
+                                title: "Tugas",
+                                icon: Icon(
+                                  Icons.wordpress_outlined,
+                                  size: 40,
+                                )),
                           ],
                         ),
                       ),
                       SizedBox(height: 25),
-                      Text("Home Work", style: TextStyle(
-                        fontSize: 20,
-                      ),),
+                      Text(
+                        "Home Work",
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
                       SizedBox(height: 20),
-                      Column(
-                        children: [
-                          IsiHomeWork(isitext: "isi textnya"),
-                        ],
+                      HomeWorkWidget(
+                        title: "Bahasa Indonesia",
+                        subtitle: "Halaman 5-10 / 3 hari yang lalu",
+                      ),
+                      Divider(color: Colors.black),
+                      HomeWorkWidget(
+                        title: "Matematika",
+                        subtitle: "Halaman 5-10 / 3 hari yang lalu",
+                      ),
+                      Divider(color: Colors.black),
+                      HomeWorkWidget(
+                        title: "Bahasa Inggris",
+                        subtitle: "Halaman 5-10 / 3 hari yang lalu",
+                      ),
+                      Divider(color: Colors.black),
+                      HomeWorkWidget(
+                        title: "Bahasa Indonesia",
+                        subtitle: "Halaman 5-10 / 3 hari yang lalu",
+                      ),
+                      Divider(color: Colors.black),
+                      HomeWorkWidget(
+                        title: "Matematika",
+                        subtitle: "Halaman 5-10 / 3 hari yang lalu",
+                      ),
+                      Divider(color: Colors.black),
+                      HomeWorkWidget(
+                        title: "Bahasa Inggris",
+                        subtitle: "Halaman 5-10 / 3 hari yang lalu",
+                      ),
+                      Divider(color: Colors.black),
+                      HomeWorkWidget(
+                        title: "Bahasa Indonesia",
+                        subtitle: "Halaman 5-10 / 3 hari yang lalu",
+                      ),
+                      Divider(color: Colors.black),
+                      HomeWorkWidget(
+                        title: "Matematika",
+                        subtitle: "Halaman 5-10 / 3 hari yang lalu",
+                      ),
+                      Divider(color: Colors.black),
+                      HomeWorkWidget(
+                        title: "Bahasa Inggris",
+                        subtitle: "Halaman 5-10 / 3 hari yang lalu",
                       ),
                     ],
                   ),
@@ -171,9 +272,45 @@ class HomeWidget extends StatelessWidget {
   }
 }
 
+class HomeWorkWidget extends StatelessWidget {
+  const HomeWorkWidget({
+    super.key,
+    required this.title,
+    required this.subtitle,
+  });
+
+  final String title;
+  final String subtitle;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(title),
+      subtitle: Text(subtitle),
+      trailing: TextButton(
+        onPressed: () {
+          Get.defaultDialog(
+            title: "Buka Tugas",
+            middleText: "Anda akan mengerjakan tugasnya",
+            textCancel: "Cancel",
+            onCancel: () => Get.back(),
+            textConfirm: "Okaaayy",
+            onConfirm: () => Get.back(),
+          );
+        },
+        child: Text("Selengkapnya"),
+      ),
+      // leading: Checkbox(
+      //   value: true,
+      //   onChanged: (value) => true,
+      // ),
+    );
+  }
+}
+
 class IsiHomeWork extends StatelessWidget {
   const IsiHomeWork({
-    super.key, 
+    super.key,
     required this.isitext,
   });
 
@@ -185,8 +322,8 @@ class IsiHomeWork extends StatelessWidget {
       height: 50,
       width: 50,
       decoration: BoxDecoration(
-      color: Colors.grey[300],
-      borderRadius: BorderRadius.circular(15),
+        color: Colors.grey[300],
+        borderRadius: BorderRadius.circular(15),
       ),
       child: Text(isitext),
     );
@@ -194,9 +331,9 @@ class IsiHomeWork extends StatelessWidget {
 }
 
 class NoticeBoard extends StatelessWidget {
-   const NoticeBoard({
+  const NoticeBoard({
     super.key,
-    required this.title, 
+    required this.title,
     required this.icon,
   });
 
@@ -214,11 +351,27 @@ class NoticeBoard extends StatelessWidget {
           SizedBox(
             height: 50,
             width: 50,
-            child: IconButton(onPressed: (){}, icon: icon,),                            
+            child: IconButton(
+              onPressed: () {
+                Get.defaultDialog(
+            title: "Buka Notice",
+            middleText: "Nanti akan diarahkan ke detailnya",
+            textCancel: "Cancel",
+            onCancel: () => Get.back(),
+            textConfirm: "Okaaayy",
+            onConfirm: () => Get.back(),
+          );
+              },
+              icon: icon,
+            ),
           ),
-          SizedBox(height: 5, width: 100,),
-          
-          Text(title,),
+          SizedBox(
+            height: 5,
+            width: 100,
+          ),
+          Text(
+            title,
+          ),
         ],
       ),
     );

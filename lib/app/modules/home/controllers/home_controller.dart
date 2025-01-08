@@ -13,14 +13,14 @@ class HomeController extends GetxController {
     Center(
         child: Text("News",
         style: TextStyle(
-          fontSize: 16,
+          fontSize: 50,
           fontWeight: FontWeight.bold
         ),),
       ),
     Center(
         child: Text("Profile",
         style: TextStyle(
-          fontSize: 16,
+          fontSize: 50,
           fontWeight: FontWeight.bold
         ),),
       ),

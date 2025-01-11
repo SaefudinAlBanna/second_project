@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:second_project/app/modules/home/widgets_pages/profile_widget.dart';
 import '../widgets_pages/home_widget.dart';
 
 class HomeController extends GetxController {
@@ -17,12 +18,6 @@ class HomeController extends GetxController {
           fontWeight: FontWeight.bold
         ),),
       ),
-    Center(
-        child: Text("Profile",
-        style: TextStyle(
-          fontSize: 50,
-          fontWeight: FontWeight.bold
-        ),),
-      ),
+    ProfileWidget(),
   ];
 }

@@ -146,7 +146,7 @@ class HomeWidget extends StatelessWidget {
                         height: 20,
                       ),
                       Text(
-                        "Notice Board",
+                        "Papan Pengumuman",
                         style: TextStyle(
                           fontSize: 20,
                         ),
@@ -208,54 +208,55 @@ class HomeWidget extends StatelessWidget {
                           ],
                         ),
                       ),
-                      SizedBox(height: 25),
+                      SizedBox(height: 35),
                       Text(
-                        "Home Work",
+                        "Kumpulan PR",
                         style: TextStyle(
                           fontSize: 20,
                         ),
                       ),
-                      SizedBox(height: 20),
+                      Divider(color: Colors.black),
+                      SizedBox(height: 10),
                       HomeWorkWidget(
                         title: "Bahasa Indonesia",
                         subtitle: "Halaman 5-10 / 3 hari yang lalu",
                       ),
-                      Divider(color: Colors.black),
+                      // Divider(color: Colors.black),
                       HomeWorkWidget(
                         title: "Matematika",
                         subtitle: "Halaman 5-10 / 3 hari yang lalu",
                       ),
-                      Divider(color: Colors.black),
+                      // Divider(color: Colors.black),
                       HomeWorkWidget(
                         title: "Bahasa Inggris",
                         subtitle: "Halaman 5-10 / 3 hari yang lalu",
                       ),
-                      Divider(color: Colors.black),
+                      // Divider(color: Colors.black),
                       HomeWorkWidget(
                         title: "Bahasa Indonesia",
                         subtitle: "Halaman 5-10 / 3 hari yang lalu",
                       ),
-                      Divider(color: Colors.black),
+                      // Divider(color: Colors.black),
                       HomeWorkWidget(
                         title: "Matematika",
                         subtitle: "Halaman 5-10 / 3 hari yang lalu",
                       ),
-                      Divider(color: Colors.black),
+                      // Divider(color: Colors.black),
                       HomeWorkWidget(
                         title: "Bahasa Inggris",
                         subtitle: "Halaman 5-10 / 3 hari yang lalu",
                       ),
-                      Divider(color: Colors.black),
+                      // Divider(color: Colors.black),
                       HomeWorkWidget(
                         title: "Bahasa Indonesia",
                         subtitle: "Halaman 5-10 / 3 hari yang lalu",
                       ),
-                      Divider(color: Colors.black),
+                      // Divider(color: Colors.black),
                       HomeWorkWidget(
                         title: "Matematika",
                         subtitle: "Halaman 5-10 / 3 hari yang lalu",
                       ),
-                      Divider(color: Colors.black),
+                      // Divider(color: Colors.black),
                       HomeWorkWidget(
                         title: "Bahasa Inggris",
                         subtitle: "Halaman 5-10 / 3 hari yang lalu",
@@ -284,26 +285,29 @@ class HomeWorkWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(title),
-      subtitle: Text(subtitle),
-      trailing: TextButton(
-        onPressed: () {
-          Get.defaultDialog(
-            title: "Buka Tugas",
-            middleText: "Anda akan mengerjakan tugasnya",
-            textCancel: "Cancel",
-            onCancel: () => Get.back(),
-            textConfirm: "Okaaayy",
-            onConfirm: () => Get.back(),
-          );
-        },
-        child: Text("Selengkapnya"),
+    return Card(
+      color: Colors.grey[200],
+      child: ListTile(
+        title: Text(title),
+        subtitle: Text(subtitle),
+        trailing: TextButton(
+          onPressed: () {
+            Get.defaultDialog(
+              title: "Buka Tugas",
+              middleText: "Anda akan mengerjakan tugasnya",
+              textCancel: "Cancel",
+              onCancel: () => Get.back(),
+              textConfirm: "Okaaayy",
+              onConfirm: () => Get.back(),
+            );
+          },
+          child: Text("Selengkapnya"),
+        ),
+        // leading: Checkbox(
+        //   value: true,
+        //   onChanged: (value) => true,
+        // ),
       ),
-      // leading: Checkbox(
-      //   value: true,
-      //   onChanged: (value) => true,
-      // ),
     );
   }
 }

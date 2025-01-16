@@ -23,7 +23,7 @@ class HomeView extends GetView<HomeController> {
               icon: Icon(Icons.home),
             ),
             TabItem(
-              title: "News",
+              title: "Nilai",
               icon: Icon(Icons.newspaper_outlined),
             ),
             TabItem(

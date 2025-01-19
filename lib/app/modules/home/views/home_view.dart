@@ -16,6 +16,7 @@ class HomeView extends GetView<HomeController> {
       ),
       bottomNavigationBar: ConvexAppBar(
         backgroundColor: Colors.red.shade800,
+        style: TabStyle.fixedCircle,
           onTap: (value) => controller.changeIndex(value),
           items: [
             TabItem(
@@ -23,8 +24,9 @@ class HomeView extends GetView<HomeController> {
               icon: Icon(Icons.home),
             ),
             TabItem(
-              title: "Nilai",
-              icon: Icon(Icons.newspaper_outlined),
+              title: "Absensi",
+              icon: Icon(Icons.fingerprint_outlined,
+              size: 50,),
             ),
             TabItem(
               title: "Profile",

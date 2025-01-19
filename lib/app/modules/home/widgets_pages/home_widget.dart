@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:second_project/app/modules/home/widgets_pages/nilai_widget.dart';
 
 class HomeWidget extends StatelessWidget {
   const HomeWidget({super.key});
@@ -157,58 +158,50 @@ class HomeWidget extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            NoticeBoard(
-                                title: "Pengumuman",
-                                icon: Icon(
-                                  Icons.menu_book_outlined,
-                                  size: 40,
-                                )),
-                            NoticeBoard(
-                                title: "Tugas",
-                                icon: Icon(
-                                  Icons.alarm,
-                                  size: 40,
-                                )),
-                            NoticeBoard(
-                                title: "Pengumuman",
-                                icon: Icon(
-                                  Icons.home_repair_service_outlined,
-                                  size: 40,
-                                )),
-                            NoticeBoard(
-                                title: "Tugas",
-                                icon: Icon(
-                                  Icons.bookmark_outline_outlined,
-                                  size: 40,
-                                )),
-                            NoticeBoard(
-                                title: "Pengumuman",
-                                icon: Icon(
-                                  Icons.perm_camera_mic,
-                                  size: 40,
-                                )),
-                            NoticeBoard(
-                                title: "Tugas",
-                                icon: Icon(
-                                  Icons.rowing_outlined,
-                                  size: 40,
-                                )),
-                            NoticeBoard(
-                                title: "Pengumuman",
-                                icon: Icon(
-                                  Icons.radar_outlined,
-                                  size: 40,
-                                )),
-                            NoticeBoard(
-                                title: "Tugas",
-                                icon: Icon(
-                                  Icons.wordpress_outlined,
-                                  size: 40,
-                                )),
+                            PapanPengumuman(
+                              title: 'Nilai',
+                              iconButton: IconButton(
+                                onPressed: () {
+                                  Get.to(NilaiWidget());
+                                },
+                                icon: Icon(Icons.home),
+                                iconSize: 40,
+                              ),
+                            ),
+                            PapanPengumuman(
+                              title: 'Materi',
+                              iconButton: IconButton(
+                                onPressed: () {
+                                  Get.to(NilaiWidget());
+                                },
+                                icon: Icon(Icons.system_security_update_good_outlined),
+                                iconSize: 40,
+                              ),
+                            ),
+                            PapanPengumuman(
+                              title: 'Absensi',
+                              iconButton: IconButton(
+                                onPressed: () {
+                                  Get.to(NilaiWidget());
+                                },
+                                icon: Icon(Icons.fingerprint_outlined),
+                                iconSize: 40,
+                              ),
+                            ),
+                            PapanPengumuman(
+                              title: 'Ekskul',
+                              iconButton: IconButton(
+                                onPressed: () {
+                                  Get.to(NilaiWidget());
+                                },
+                                icon: Icon(Icons.sports_handball_outlined),
+                                iconSize: 40,
+                              ),
+                            ),
                           ],
                         ),
                       ),
-                      SizedBox(height: 35),
+                      SizedBox(height: 20),
                       Text(
                         "Kumpulan PR",
                         style: TextStyle(
@@ -273,6 +266,34 @@ class HomeWidget extends StatelessWidget {
   }
 }
 
+class PapanPengumuman extends StatelessWidget {
+  const PapanPengumuman(
+      {super.key, required this.title, required this.iconButton});
+
+  final String title;
+  final IconButton iconButton;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      // color: Colors.grey[200],
+      color: Colors.grey[200],
+      borderOnForeground: false,
+      child: Column(
+        children: [
+          Container(
+            height: 50,
+            width: 75,
+            margin: EdgeInsets.all(5),
+            child: iconButton,
+          ),
+          Text(title),
+        ],
+      ),
+    );
+  }
+}
+
 class HomeWorkWidget extends StatelessWidget {
   const HomeWorkWidget({
     super.key,
@@ -330,54 +351,6 @@ class IsiHomeWork extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       child: Text(isitext),
-    );
-  }
-}
-
-class NoticeBoard extends StatelessWidget {
-  const NoticeBoard({
-    super.key,
-    required this.title,
-    required this.icon,
-  });
-
-  final String title;
-  final Icon icon;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      color: Colors.grey[300],
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            height: 50,
-            width: 50,
-            child: IconButton(
-              onPressed: () {
-                Get.defaultDialog(
-            title: "Buka Notice",
-            middleText: "Nanti akan diarahkan ke detailnya",
-            textCancel: "Cancel",
-            onCancel: () => Get.back(),
-            textConfirm: "Okaaayy",
-            onConfirm: () => Get.back(),
-          );
-              },
-              icon: icon,
-            ),
-          ),
-          SizedBox(
-            height: 5,
-            width: 100,
-          ),
-          Text(
-            title,
-          ),
-        ],
-      ),
     );
   }
 }

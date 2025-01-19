@@ -63,6 +63,7 @@ class ProfileWidget extends StatelessWidget {
                             image: DecorationImage(
                         image: NetworkImage(
                             "https://picsum.photos/id/1060/536/354"),
+                            // "https://photos.google.com/photo/AF1QipO0EuuqmPsza1Ljrdy6roeFI9BbjQ043BrYtxpc"),
                         fit: BoxFit.cover,
                       ),
                             borderRadius: BorderRadius.circular(50),

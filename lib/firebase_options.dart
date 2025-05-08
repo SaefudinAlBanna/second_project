@@ -54,6 +54,7 @@ class DefaultFirebaseOptions {
     appId: '1:459669186229:android:028bb3c5e66bcb383c80fc',
     messagingSenderId: '459669186229',
     projectId: 'sekolah1-e6a6f',
+    databaseURL: 'https://sekolah1-e6a6f-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'sekolah1-e6a6f.firebasestorage.app',
   );
 
@@ -62,6 +63,7 @@ class DefaultFirebaseOptions {
     appId: '1:459669186229:ios:a35fd330c922fd803c80fc',
     messagingSenderId: '459669186229',
     projectId: 'sekolah1-e6a6f',
+    databaseURL: 'https://sekolah1-e6a6f-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'sekolah1-e6a6f.firebasestorage.app',
     iosBundleId: 'com.banasari.secondProject',
   );

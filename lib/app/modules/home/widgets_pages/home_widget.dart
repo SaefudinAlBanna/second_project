@@ -1,308 +1,421 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:second_project/app/modules/home/widgets_pages/nilai_widget.dart';
+import 'package:intl/intl.dart';
 
-class HomeWidget extends StatelessWidget {
+import '../../../routes/app_pages.dart';
+import '../controllers/home_controller.dart';
+
+class HomeWidget extends GetView<HomeController> {
   const HomeWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: RichText(
-          text: TextSpan(
-            text: "Hai, ",
-            style: TextStyle(
-              fontSize: 14,
-            ),
-            children: [
-              TextSpan(
-                text: "Muhammad",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ),
-        backgroundColor: Colors.red,
-        actions: [
-          IconButton(
-            onPressed: () {
-              Get.defaultDialog(
-                title: "Buka Muhammad",
-                middleText: "nanti akan di arahkan ke detailnya",
-                textCancel: "Cancel",
-                onCancel: () => Get.back(),
-                textConfirm: "Okaaayy",
-                onConfirm: () => Get.back(),
-              );
-            },
-            icon: Icon(
-              Icons.menu_book_outlined,
-              size: 25,
-              color: Colors.white,
-            ),
-          ),
-        ],
-      ),
-      body: Stack(
-        children: [
-          ClipPath(
-            clipper: ClassClipPathTop(), // ini nanti di aktifkan lagi
-            child: Container(
-              height: 250,
-              width: Get.width,
-              color: Colors.red,
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 20),
-            child: Column(
+    return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+        stream: controller.userStreamBaru(),
+        builder: (context, snapsiswa) {
+          // print('ini snapsiswa.data : ${snapsiswa.data['']}');
+          // print('snapsiswa (home_widget) =${snapsiswa.data?.data()?['nama']}');
+          // Map<String, dynamic>? dataSiswa = snapsiswa.data?.data();
+          if (snapsiswa.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (snapsiswa.data!.data() == null || snapsiswa.data == null) {
+            return Center(child: Column(
               children: [
-                Column(
-                  children: [
-                    ClipPath(
-                      clipper: ClipPathClass(),
-                      child: Container(
-                        padding: EdgeInsets.all(15),
-                        margin: EdgeInsets.symmetric(horizontal: 25),
-                        height: 200,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [Color(0xFFE52027), Color(0xFF831217)],
-                          ),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "S.M. Husain. A",
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    Get.defaultDialog(
-                                      title: "Buka Husain",
-                                      middleText:
-                                          "Nanti akan diarahkan ke detailnya",
-                                      textCancel: "Cancel",
-                                      onCancel: () => Get.back(),
-                                      textConfirm: "Okaaayy",
-                                      onConfirm: () => Get.back(),
-                                    );
-                                  },
-                                  icon: Icon(
-                                    Icons.person,
-                                    color: Colors.grey[400],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 50,
-                            ),
-                            Text(
-                              "Kelas 3 A",
-                              style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                            Text(
-                              "SDTQ Telaga Ilmu Yogyakarta",
-                              style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  height: 7,
-                  color: Colors.grey[400],
-                ),
-                Expanded(
-                  child: ListView(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 25,
+                Text('Data tidak ditemukan'),
+                Text('Silahkan Logout terlebih dahulu, kemudian Login ulang'),
+                SizedBox(height: 15),
+                ElevatedButton(onPressed: ()
+                {Get.offAllNamed(Routes.HOME);
+                Get.snackbar('Login', 'Silahkan login ulang');
+                }, child: Text('Logout')),
+              ],
+            ));
+            // return
+          } else if (snapsiswa.hasData) {
+            Map<String, dynamic> datasiswa = snapsiswa.data!.data()!;
+
+            return Scaffold(
+              appBar: AppBar(
+                title: RichText(
+                  text: TextSpan(
+                    text: "Assalamu'alaykum,  ",
+                    style: TextStyle(
+                      fontSize: 14,
                     ),
                     children: [
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        "Papan Pengumuman",
+                      TextSpan(
+                        // text: "Muhammad",
+                        text: datasiswa['nama'],
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
                         ),
-                      ),
-                      SizedBox(height: 15),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            PapanPengumuman(
-                              title: 'Nilai',
-                              iconButton: IconButton(
-                                onPressed: () {
-                                  Get.to(NilaiWidget());
-                                },
-                                icon: Icon(Icons.home),
-                                iconSize: 40,
-                              ),
-                            ),
-                            PapanPengumuman(
-                              title: 'Materi',
-                              iconButton: IconButton(
-                                onPressed: () {
-                                  Get.to(NilaiWidget());
-                                },
-                                icon: Icon(Icons.system_security_update_good_outlined),
-                                iconSize: 40,
-                              ),
-                            ),
-                            PapanPengumuman(
-                              title: 'Absensi',
-                              iconButton: IconButton(
-                                onPressed: () {
-                                  Get.to(NilaiWidget());
-                                },
-                                icon: Icon(Icons.fingerprint_outlined),
-                                iconSize: 40,
-                              ),
-                            ),
-                            PapanPengumuman(
-                              title: 'Ekskul',
-                              iconButton: IconButton(
-                                onPressed: () {
-                                  Get.to(NilaiWidget());
-                                },
-                                icon: Icon(Icons.sports_handball_outlined),
-                                iconSize: 40,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      Text(
-                        "Kumpulan PR",
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
-                      Divider(color: Colors.black),
-                      SizedBox(height: 10),
-                      HomeWorkWidget(
-                        title: "Bahasa Indonesia",
-                        subtitle: "Halaman 5-10 / 3 hari yang lalu",
-                      ),
-                      // Divider(color: Colors.black),
-                      HomeWorkWidget(
-                        title: "Matematika",
-                        subtitle: "Halaman 5-10 / 3 hari yang lalu",
-                      ),
-                      // Divider(color: Colors.black),
-                      HomeWorkWidget(
-                        title: "Bahasa Inggris",
-                        subtitle: "Halaman 5-10 / 3 hari yang lalu",
-                      ),
-                      // Divider(color: Colors.black),
-                      HomeWorkWidget(
-                        title: "Bahasa Indonesia",
-                        subtitle: "Halaman 5-10 / 3 hari yang lalu",
-                      ),
-                      // Divider(color: Colors.black),
-                      HomeWorkWidget(
-                        title: "Matematika",
-                        subtitle: "Halaman 5-10 / 3 hari yang lalu",
-                      ),
-                      // Divider(color: Colors.black),
-                      HomeWorkWidget(
-                        title: "Bahasa Inggris",
-                        subtitle: "Halaman 5-10 / 3 hari yang lalu",
-                      ),
-                      // Divider(color: Colors.black),
-                      HomeWorkWidget(
-                        title: "Bahasa Indonesia",
-                        subtitle: "Halaman 5-10 / 3 hari yang lalu",
-                      ),
-                      // Divider(color: Colors.black),
-                      HomeWorkWidget(
-                        title: "Matematika",
-                        subtitle: "Halaman 5-10 / 3 hari yang lalu",
-                      ),
-                      // Divider(color: Colors.black),
-                      HomeWorkWidget(
-                        title: "Bahasa Inggris",
-                        subtitle: "Halaman 5-10 / 3 hari yang lalu",
                       ),
                     ],
                   ),
                 ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+                backgroundColor: Colors.red,
+                actions: [
+                  IconButton(
+                    onPressed: () {
+                      Get.defaultDialog(
+                        title: "Buka Muhammad",
+                        middleText: "nanti akan di arahkan ke detailnya",
+                        textCancel: "Cancel",
+                        onCancel: () => Get.back(),
+                        textConfirm: "Okaaayy",
+                        onConfirm: () => Get.back(),
+                      );
+                    },
+                    icon: Icon(
+                      Icons.menu_book_outlined,
+                      size: 25,
+                      color: Colors.white,
+                    ),
+                  ),
+                  // IconButton(onPressed: (){controller.getDataDocKelasSiswa();}, icon: Icon(Icons.ac_unit_sharp)),
+                ],
+              ),
+              body: Stack(
+                children: [
+                  ClipPath(
+                    clipper: ClassClipPathTop(), // ini nanti di aktifkan lagi
+                    child: Container(
+                      height: 250,
+                      width: Get.width,
+                      color: Colors.red,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 20),
+                    child: Column(
+                      children: [
+                        Column(
+                          children: [
+                            ClipPath(
+                              clipper: ClipPathClass(),
+                              child: Container(
+                                padding: EdgeInsets.all(15),
+                                margin: EdgeInsets.symmetric(horizontal: 25),
+                                height: 200,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Color(0xFFE52027),
+                                      Color(0xFF831217)
+                                    ],
+                                  ),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: FutureBuilder<
+                                        DocumentSnapshot<Map<String, dynamic>>>(
+                                    future: controller.getDataDocKelasSiswa(),
+                                    builder: (context, snapshotDataKelas) {
+                                      if (snapshotDataKelas.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return Center(
+                                          child: CircularProgressIndicator(),
+                                        );
+                                      }
+                                      if (snapshotDataKelas.hasData) {
+                                        Map<String, dynamic>? dataKelas =
+                                            snapshotDataKelas.data!.data();
+                                        // print('isi dataKelas = $dataKelas');
+                                        return Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  datasiswa['nama'],
+                                                  style: TextStyle(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.white),
+                                                ),
+                                                IconButton(
+                                                  onPressed: () {
+                                                    Get.defaultDialog(
+                                                      title: "Buka Husain",
+                                                      middleText:
+                                                          "Nanti akan diarahkan ke detailnya",
+                                                      textCancel: "Cancel",
+                                                      onCancel: () =>
+                                                          Get.back(),
+                                                      textConfirm: "Okaaayy",
+                                                      onConfirm: () =>
+                                                          Get.back(),
+                                                    );
+                                                  },
+                                                  icon: Icon(
+                                                    Icons.person,
+                                                    color: Colors.grey[400],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 50,
+                                            ),
+                                            Text(
+                                              "SD IT Ukhuwah Islamiyah",
+                                              style: TextStyle(
+                                                  fontSize: 17,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white),
+                                            ),
+                                            SizedBox(height: 10),
+                                            Text(
+                                              "Kelas : ${dataKelas?['namakelas'] ?? 'N/A'}  NISN : ${dataKelas?['nisn'] ?? 'N/A'}",
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  // fontWeight: FontWeight.bold,
+                                                  color: Colors.white),
+                                            ),
+                                          ],
+                                        );
+                                      } else {
+                                        return SizedBox();
+                                      }
+                                    }),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Container(height: 7, color: Colors.grey[400]),
+
+                        SizedBox(height: 20),
+                        Text("Informasi", style: TextStyle(fontSize: 20)),
+
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              MenuAtas(
+                                title: 'Halaqoh',
+                                icon: Icon(Icons.menu_book_sharp),
+                                onTap: () {
+                                  Get.toNamed(Routes.DAFTAR_NILAI_HALAQOH);
+                                },
+                              ),
+                              MenuAtas(
+                                title: 'Kelas',
+                                icon: Icon(Icons.school_outlined),
+                                onTap: () => Get.defaultDialog(
+                                    onCancel: Get.back,
+                                    title: 'Kelas',
+                                    middleText: 'Fitur dalam pengembangan'),
+                              ),
+                              MenuAtas(
+                                title: 'Ekskul',
+                                icon: Icon(Icons.sports_gymnastics_rounded),
+                                onTap: () => Get.defaultDialog(
+                                    onCancel: Get.back,
+                                    title: 'Ekskul',
+                                    middleText: 'Fitur dalam pengembangan'),
+                              ),
+                              MenuAtas(
+                                title: 'Sekolah',
+                                icon: Icon(Icons.info_outline),
+                                onTap: () => Get.defaultDialog(
+                                    onCancel: Get.back,
+                                    title: 'Sekolah',
+                                    middleText: 'Fitur dalam pengembangan'),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        SizedBox(height: 20),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Nilai Halaqoh",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                ),
+                              ),
+                              TextButton(
+                                  onPressed: () {controller.getDataNilai();}, child: Text('selengkapnya'))
+                            ],
+                          ),
+                        ),
+                        // Divider(color: Colors.black),
+                        // Divider(),
+                        Container(
+                          height: 2,
+                          color: Colors.grey[300],
+                        ),
+
+                        Expanded(
+                            child: FutureBuilder<
+                                    QuerySnapshot<Map<String, dynamic>>>(
+                                future: controller.getDataNilai(),
+                                builder: (context, snapshotNilaiHalaqoh) {
+                                  if (snapshotNilaiHalaqoh.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return Center(
+                                        child: CircularProgressIndicator());
+                                  }
+                                  if (snapshotNilaiHalaqoh.data!.docs.isEmpty ||
+                                      snapshotNilaiHalaqoh.data == null) {
+                                    return Center(
+                                        child: Text('Belum ada data nilai'));
+                                  }
+                                  if (snapshotNilaiHalaqoh.hasData) {
+                                    return ListView.builder(
+                                      itemCount: snapshotNilaiHalaqoh.data!.docs.length,
+                                      itemBuilder: (context, index) {
+                                        final data = snapshotNilaiHalaqoh.data!.docs[index].data();
+                                        print('data = $data');
+                                        return GestureDetector(
+                                          onTap: () {
+                                            DateTime now = DateTime.now();
+                                            String formattedDate =
+                                                '${now.day}/${now.month}/${now.year}';
+                                            Get.snackbar('title',
+                                                'message $formattedDate');
+                                          },
+                                          child: Card(
+                                            margin: EdgeInsets.only(
+                                                bottom: 10,
+                                                left: 10,
+                                                right: 10),
+                                            color: Colors.grey[350],
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 15,
+                                                      vertical: 10),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text('Materi halaqohnya'),
+                                                      // Text(DateFormat('dd/MM/yyyy').format(DateTime.now()))
+                                                      // Text(DateFormat('EEEE, dd MMMM, yyyy - HH:mm').format(DateTime.now()))
+                                                      Text(DateFormat(
+                                                              'EEEE, dd MMMM, yyyy')
+                                                          .format(
+                                                              DateTime.now()),
+                                                              ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(height: 5),
+                                                  Text('Hafalan Surat : ${data['hafalansurat']}'),
+                                                  Text('UMMI Jld/ Surat : ${data['ummijilidatausurat']}'),
+                                                  Text('Materi : ${data['materi']}'),
+                                                  Text('Nilai : ${data['nilai']}'),
+                                                  Text('Catatan',style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold)),
+
+                                                  Text('pengampu : ${data['keteranganpengampu']}'),
+                                                  Text("orangtua : ${data == 0 ? (data['keteranganorangtua'] ?? '-') : '-'}"),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  } else {
+                                    return Center(
+                                        child: Text('No data available'));
+                                  }
+                                })),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          } else {
+            return Center(
+              child: Text('Terjadi kesalahan, cek koneksi internet'),
+            );
+          }
+        });
   }
 }
 
-class PapanPengumuman extends StatelessWidget {
-  const PapanPengumuman(
-      {super.key, required this.title, required this.iconButton});
+//========================================================================
+class MenuAtas extends StatelessWidget {
+  const MenuAtas({
+    super.key,
+    required this.title,
+    required this.icon,
+    required this.onTap,
+  });
 
   final String title;
-  final IconButton iconButton;
+  final Icon icon;
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      // color: Colors.grey[200],
-      color: Colors.grey[200],
-      borderOnForeground: false,
+    return Padding(
+      padding: const EdgeInsets.only(top: 20, left: 10, right: 15),
       child: Column(
         children: [
-          Container(
-            height: 50,
-            width: 75,
-            margin: EdgeInsets.all(5),
-            child: iconButton,
+          GestureDetector(
+            onTap: onTap,
+            child: Container(
+              height: 50,
+              width: 50,
+              decoration: BoxDecoration(
+                color: Colors.indigo.shade500,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Center(
+                  child: Icon(
+                icon.icon,
+                size: 40,
+                color: Colors.white,
+              )),
+            ),
           ),
-          Text(title),
+          SizedBox(height: 3),
+          SizedBox(
+              width: 55,
+              child: Text(
+                title,
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.black, fontSize: 12),
+              ))
         ],
       ),
     );
   }
 }
+//========================================================================
 
 class HomeWorkWidget extends StatelessWidget {
   const HomeWorkWidget({
     super.key,
     required this.title,
     required this.subtitle,
+    required this.tanggal,
   });
 
   final String title;
   final String subtitle;
+  final String tanggal;
 
   @override
   Widget build(BuildContext context) {
@@ -310,7 +423,9 @@ class HomeWorkWidget extends StatelessWidget {
       color: Colors.grey[200],
       child: ListTile(
         title: Text(title),
-        subtitle: Text(subtitle),
+        subtitle: Row(
+          children: [Text(subtitle), Text(tanggal)],
+        ),
         trailing: TextButton(
           onPressed: () {
             Get.defaultDialog(

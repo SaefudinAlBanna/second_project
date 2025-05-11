@@ -9,6 +9,7 @@ abstract class Routes {
   static const DAFTAR_NILAI_HALAQOH = _Paths.DAFTAR_NILAI_HALAQOH;
   static const NEW_PASSWORD = _Paths.NEW_PASSWORD;
   static const FORGOT_PASSWORD = _Paths.FORGOT_PASSWORD;
+  static const DETAIL_NILAI_HALAQOH = _Paths.DETAIL_NILAI_HALAQOH;
 }
 
 abstract class _Paths {
@@ -19,4 +20,5 @@ abstract class _Paths {
   static const DAFTAR_NILAI_HALAQOH = '/daftar-nilai-halaqoh';
   static const NEW_PASSWORD = '/new-password';
   static const FORGOT_PASSWORD = '/forgot-password';
+  static const DETAIL_NILAI_HALAQOH = '/detail-nilai-halaqoh';
 }

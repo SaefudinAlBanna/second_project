@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:second_project/app/modules/home/widgets_pages/profile_widget.dart';
+import 'package:second_project/app/routes/app_pages.dart';
 import '../widgets_pages/home_widget.dart';
 
 class HomeController extends GetxController {
@@ -158,14 +159,14 @@ class HomeController extends GetxController {
     }
   }
 
-  Future<QuerySnapshot<Map<String, dynamic>>> getDataNilai() async {
-    String tahunajaranya = await getTahunAjaranTerakhir();
+  Future<void> keDaftarNilai() async {
+     String tahunajaranya = await getTahunAjaranTerakhir();
     String idTahunAjaran = tahunajaranya.replaceAll("/", "-");
     String semesternya = await getSemesterTerakhir();
     // String kelasnya = data.toString();
 
-    print('semesternya(terakhir) = $semesternya');
-    print('docIdSiswa = $docIdSiswa');
+    // print('semesternya(terakhir) = $semesternya');
+    // print('docIdSiswa = $docIdSiswa');
 
     QuerySnapshot<Map<String, dynamic>> querySnapshotSiswa = await firestore
         .collection('Sekolah')
@@ -173,14 +174,12 @@ class HomeController extends GetxController {
         .collection('siswa')
         .doc(docIdSiswa)
         .collection('tahunajarankelompok')
-        // .doc(idTahunAjaran)
-        // .where('uid', isEqualTo: docIdSiswa)
         .get();
     if (querySnapshotSiswa.docs.isNotEmpty) {
       Map<String, dynamic> dataSiswa = querySnapshotSiswa.docs.first.data();
       String faseNya = dataSiswa['fase'];
 
-      print('faseNya = $faseNya');
+      // print('faseNya = $faseNya');
 
       QuerySnapshot<Map<String, dynamic>> querySnapshotSiswaAmbilPengampu =
           await firestore
@@ -201,8 +200,80 @@ class HomeController extends GetxController {
         String namaPengampuNya = dataSiswaAmbilPengampu['namapengampu'];
         String tempatmengajiNya = dataSiswaAmbilPengampu['tempatmengaji'];
 
-      print('namaPengampuNya = $namaPengampuNya');
-      print('tempatmengajiNya = $tempatmengajiNya');
+      // print('namaPengampuNya = $namaPengampuNya');
+      // print('tempatmengajiNya = $tempatmengajiNya');
+      
+       DocumentSnapshot<Map<String, dynamic>> snapDaftarNilai =  await firestore
+            .collection('Sekolah')
+            .doc(idSekolah)
+            .collection('tahunajaran')
+            .doc(idTahunAjaran)
+            .collection('semester')
+            .doc(semesternya)
+            .collection('kelompokmengaji')
+            .doc(faseNya)
+            .collection('pengampu')
+            .doc(namaPengampuNya)
+            .collection('tempat')
+            .doc(tempatmengajiNya)
+            .collection('daftarsiswa')
+            .doc(docIdSiswa)
+            // .collection('nilai')
+            // .orderBy('tanggalinput', descending: true)
+            .get();
+
+            // print("snapDaftarNilai = $snapDaftarNilai");
+
+            Get.toNamed(Routes.DAFTAR_NILAI_HALAQOH, arguments: snapDaftarNilai);
+      }
+    }
+    // throw Exception('No data found for the current student.');
+  }
+  
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getDataNilai() async {
+    String tahunajaranya = await getTahunAjaranTerakhir();
+    String idTahunAjaran = tahunajaranya.replaceAll("/", "-");
+    String semesternya = await getSemesterTerakhir();
+    // String kelasnya = data.toString();
+
+    // print('semesternya(terakhir) = $semesternya');
+    // print('docIdSiswa = $docIdSiswa');
+
+    QuerySnapshot<Map<String, dynamic>> querySnapshotSiswa = await firestore
+        .collection('Sekolah')
+        .doc(idSekolah)
+        .collection('siswa')
+        .doc(docIdSiswa)
+        .collection('tahunajarankelompok')
+        .get();
+    if (querySnapshotSiswa.docs.isNotEmpty) {
+      Map<String, dynamic> dataSiswa = querySnapshotSiswa.docs.first.data();
+      String faseNya = dataSiswa['fase'];
+
+      // print('faseNya = $faseNya');
+
+      QuerySnapshot<Map<String, dynamic>> querySnapshotSiswaAmbilPengampu =
+          await firestore
+              .collection('Sekolah')
+              .doc(idSekolah)
+              .collection('siswa')
+              .doc(docIdSiswa)
+              .collection('tahunajarankelompok')
+              .doc(idTahunAjaran)
+              .collection('semester')
+              .doc(semesternya)
+              .collection('kelompokmengaji')
+              // .where('uid', isEqualTo: docIdSiswa)
+              .get();
+      if (querySnapshotSiswaAmbilPengampu.docs.isNotEmpty) {
+        Map<String, dynamic> dataSiswaAmbilPengampu =
+            querySnapshotSiswaAmbilPengampu.docs.first.data();
+        String namaPengampuNya = dataSiswaAmbilPengampu['namapengampu'];
+        String tempatmengajiNya = dataSiswaAmbilPengampu['tempatmengaji'];
+
+      // print('namaPengampuNya = $namaPengampuNya');
+      // print('tempatmengajiNya = $tempatmengajiNya');
       
         return await firestore
             .collection('Sekolah')

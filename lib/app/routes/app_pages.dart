@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import '../modules/daftar_nilai_halaqoh/bindings/daftar_nilai_halaqoh_binding.dart';
 import '../modules/daftar_nilai_halaqoh/views/daftar_nilai_halaqoh_view.dart';
+import '../modules/detail_nilai_halaqoh/bindings/detail_nilai_halaqoh_binding.dart';
+import '../modules/detail_nilai_halaqoh/views/detail_nilai_halaqoh_view.dart';
 import '../modules/forgot_password/bindings/forgot_password_binding.dart';
 import '../modules/forgot_password/views/forgot_password_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -31,7 +33,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.DAFTAR_NILAI_HALAQOH,
-      page: () => const DaftarNilaiHalaqohView(),
+      page: () => DaftarNilaiHalaqohView(),
       binding: DaftarNilaiHalaqohBinding(),
     ),
     GetPage(
@@ -43,6 +45,11 @@ class AppPages {
       name: _Paths.FORGOT_PASSWORD,
       page: () => const ForgotPasswordView(),
       binding: ForgotPasswordBinding(),
+    ),
+    GetPage(
+      name: _Paths.DETAIL_NILAI_HALAQOH,
+      page: () => DetailNilaiHalaqohView(),
+      binding: DetailNilaiHalaqohBinding(),
     ),
   ];
 }

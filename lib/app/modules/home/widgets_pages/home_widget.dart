@@ -14,22 +14,22 @@ class HomeWidget extends GetView<HomeController> {
     return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
         stream: controller.userStreamBaru(),
         builder: (context, snapsiswa) {
-          // print('ini snapsiswa.data : ${snapsiswa.data['']}');
-          // print('snapsiswa (home_widget) =${snapsiswa.data?.data()?['nama']}');
-          // Map<String, dynamic>? dataSiswa = snapsiswa.data?.data();
           if (snapsiswa.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           }
           if (snapsiswa.data!.data() == null || snapsiswa.data == null) {
-            return Center(child: Column(
+            return Center(
+                child: Column(
               children: [
                 Text('Data tidak ditemukan'),
                 Text('Silahkan Logout terlebih dahulu, kemudian Login ulang'),
                 SizedBox(height: 15),
-                ElevatedButton(onPressed: ()
-                {Get.offAllNamed(Routes.HOME);
-                Get.snackbar('Login', 'Silahkan login ulang');
-                }, child: Text('Logout')),
+                ElevatedButton(
+                    onPressed: () {
+                      Get.offAllNamed(Routes.HOME);
+                      Get.snackbar('Login', 'Silahkan login ulang');
+                    },
+                    child: Text('Logout')),
               ],
             ));
             // return
@@ -61,13 +61,9 @@ class HomeWidget extends GetView<HomeController> {
                   IconButton(
                     onPressed: () {
                       Get.defaultDialog(
-                        title: "Buka Muhammad",
-                        middleText: "nanti akan di arahkan ke detailnya",
-                        textCancel: "Cancel",
-                        onCancel: () => Get.back(),
-                        textConfirm: "Okaaayy",
-                        onConfirm: () => Get.back(),
-                      );
+                          onCancel: Get.back,
+                          title: 'Fitur',
+                          middleText: 'Fitur dalam pengembangan');
                     },
                     icon: Icon(
                       Icons.menu_book_outlined,
@@ -75,7 +71,6 @@ class HomeWidget extends GetView<HomeController> {
                       color: Colors.white,
                     ),
                   ),
-                  // IconButton(onPressed: (){controller.getDataDocKelasSiswa();}, icon: Icon(Icons.ac_unit_sharp)),
                 ],
               ),
               body: Stack(
@@ -143,16 +138,10 @@ class HomeWidget extends GetView<HomeController> {
                                                 IconButton(
                                                   onPressed: () {
                                                     Get.defaultDialog(
-                                                      title: "Buka Husain",
-                                                      middleText:
-                                                          "Nanti akan diarahkan ke detailnya",
-                                                      textCancel: "Cancel",
-                                                      onCancel: () =>
-                                                          Get.back(),
-                                                      textConfirm: "Okaaayy",
-                                                      onConfirm: () =>
-                                                          Get.back(),
-                                                    );
+                                                        onCancel: Get.back,
+                                                        title: 'Fitur',
+                                                        middleText:
+                                                            'Fitur dalam pengembangan');
                                                   },
                                                   icon: Icon(
                                                     Icons.person,
@@ -204,7 +193,11 @@ class HomeWidget extends GetView<HomeController> {
                                 title: 'Halaqoh',
                                 icon: Icon(Icons.menu_book_sharp),
                                 onTap: () {
-                                  Get.toNamed(Routes.DAFTAR_NILAI_HALAQOH);
+                                  // Get.toNamed(Routes.DAFTAR_NILAI_HALAQOH);
+                                  Get.defaultDialog(
+                                      onCancel: Get.back,
+                                      title: 'Halaqoh',
+                                      middleText: 'Fitur dalam pengembangan');
                                 },
                               ),
                               MenuAtas(
@@ -248,7 +241,10 @@ class HomeWidget extends GetView<HomeController> {
                                 ),
                               ),
                               TextButton(
-                                  onPressed: () {controller.getDataNilai();}, child: Text('selengkapnya'))
+                                  onPressed: () {
+                                    controller.keDaftarNilai();
+                                  },
+                                  child: Text('selengkapnya'))
                             ],
                           ),
                         ),
@@ -276,21 +272,28 @@ class HomeWidget extends GetView<HomeController> {
                                   }
                                   if (snapshotNilaiHalaqoh.hasData) {
                                     return ListView.builder(
-                                      itemCount: snapshotNilaiHalaqoh.data!.docs.length,
+                                      itemCount: snapshotNilaiHalaqoh
+                                          .data!.docs.length,
                                       itemBuilder: (context, index) {
-                                        final data = snapshotNilaiHalaqoh.data!.docs[index].data();
-                                        print('data = $data');
+                                        final data = snapshotNilaiHalaqoh
+                                            .data!.docs[index]
+                                            .data();
+                                        // print('data = $data');
                                         return GestureDetector(
                                           onTap: () {
-                                            DateTime now = DateTime.now();
-                                            String formattedDate =
-                                                '${now.day}/${now.month}/${now.year}';
-                                            Get.snackbar('title',
-                                                'message $formattedDate');
+                                            // DateTime now = DateTime.now();
+                                            // String formattedDate =
+                                            //     '${now.day}/${now.month}/${now.year}';
+                                            // Get.snackbar('title',
+                                            //     'message $formattedDate');
+                                            Get.toNamed(
+                                                Routes.DETAIL_NILAI_HALAQOH,
+                                                arguments: data);
+                                            // print('argumenDataLemparHome = $data');
                                           },
                                           child: Card(
                                             margin: EdgeInsets.only(
-                                                bottom: 10,
+                                                bottom: 15,
                                                 left: 10,
                                                 right: 10),
                                             color: Colors.grey[350],
@@ -308,25 +311,29 @@ class HomeWidget extends GetView<HomeController> {
                                                         MainAxisAlignment
                                                             .spaceBetween,
                                                     children: [
-                                                      Text('Materi halaqohnya'),
+                                                      Text('Halaqohnya'),
                                                       // Text(DateFormat('dd/MM/yyyy').format(DateTime.now()))
                                                       // Text(DateFormat('EEEE, dd MMMM, yyyy - HH:mm').format(DateTime.now()))
-                                                      Text(DateFormat(
-                                                              'EEEE, dd MMMM, yyyy')
-                                                          .format(
-                                                              DateTime.now()),
-                                                              ),
+                                                      Text(
+                                                        DateFormat(
+                                                                'EEEE, dd MMMM, yyyy')
+                                                            .format(DateTime
+                                                                .parse(data[
+                                                                    'tanggalinput'])),
+                                                      ),
                                                     ],
                                                   ),
                                                   SizedBox(height: 5),
-                                                  Text('Hafalan Surat : ${data['hafalansurat']}'),
-                                                  Text('UMMI Jld/ Surat : ${data['ummijilidatausurat']}'),
-                                                  Text('Materi : ${data['materi']}'),
-                                                  Text('Nilai : ${data['nilai']}'),
-                                                  Text('Catatan',style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold)),
+                                                  Text(
+                                                      'Hafalan Surat : ${data['hafalansurat']}'),
+                                                  Text(
+                                                      'UMMI Jld/ Surat : ${data['ummijilidatausurat']}'),
+                                                  // Text('Materi : ${data['materi']}'),
+                                                  // Text('Nilai : ${data['nilai']}'),
+                                                  // Text('Catatan',style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold)),
 
-                                                  Text('pengampu : ${data['keteranganpengampu']}'),
-                                                  Text("orangtua : ${data == 0 ? (data['keteranganorangtua'] ?? '-') : '-'}"),
+                                                  // Text('pengampu : ${data['keteranganpengampu']}'),
+                                                  // Text("orangtua : ${data == 0 ? (data['keteranganorangtua'] ?? '-') : '-'}"),
                                                 ],
                                               ),
                                             ),
